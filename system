@@ -318,7 +318,40 @@ class fd:public account
 		}
 };
 
-//class rd:public acc
+class rd:public account
+{
+	public:
+		bool compounding = true;
+		float interest = 0.13;
+		int maturity;
+		int seconds = 0;
+		int t;
+		rd()
+		{
+			cout<<"Please enter the maturiry period of the fd in seconds"<<endl;
+			cin>>maturity;
+			cout<<"Please enter the time period in seconds"<<endl;
+			cin>>t;
+		}
+		void startcompounding()
+		{
+			int y;
+			y = bal;
+			float interestamt;
+			while(compounding && seconds<=maturity)
+			{
+				if(seconds % t == 0)
+				{
+					bal +=y;
+				}
+				interestamt = (bal*interest)/100;
+				bal = bal+interestamt;
+
+				this_thread::sleep_for(chrono::seconds((1)));
+				seconds++;
+			}
+		}
+};
 
 
 int main()
@@ -457,13 +490,14 @@ int main()
 		cin>>choice2;
 	}
 }
-	/*else if(a.g == "rd")
+	else if(a.g == "rd")
 	{
 		rd b;
-		choice2 = 'n';
-		while(choice == "yes")
+		thread interestcal3(&rd::startcompounding, &b);
+		while(choice2 == 'y')
 	{
-		cout<<"Please enter 1 to withdraw \n\n 2 to deposit \n\n 3 to view your current balance \n\n 4 to view your transaction history \n\n 5 to exit back to the login page"<<endl;
+		choice2 = 'n';
+		cout<<"Please enter 1 to withdraw \n\n 2 to deposit \n\n 3 to view your current balance \n\n 4 to exit back to the login page"<<endl;
 		cin>>x;
 		switch(x)
 		{
@@ -478,14 +512,12 @@ int main()
 				break;
 				
 			case 3:
+				b.compounding = false;
+				interestcal3.join();
 				b.view();
 				break;
 			
 			case 4:
-				b.view_transactions();
-				break;
-				
-			case 5:
 				break;
 			
 		}
@@ -493,5 +525,5 @@ int main()
 		cin>>choice2;
 	}
 	
-}*/
+}
 }
