@@ -7,6 +7,11 @@
 #include <thread>
 using namespace std;
 
+static int count = 0;
+string t_day[5];
+string t_hour[5];
+string t_minute[5];
+
 class login_portal
 {
 	string password;
@@ -145,12 +150,8 @@ class account
 {
 	protected:
 	int acc_no;
-	int count=0;
 	int temp = 0;
 	float bal, amt;
-	string t_day[50];
-	string t_hour[50];
-	string t_minute[50];
 	string amount[50];
 	string t_type[50];
 	public:
@@ -169,12 +170,16 @@ class account
 void account::store_time()
 {	
 	time_t curr_time;
-	curr_time = time(NULL);
-
+	curr_time = time(0);
 	tm *ltm = localtime(&curr_time);
-	t_day[count] = ltm->tm_mday;
-	t_hour[count] = ltm->tm_hour; 
-	t_minute[count] = ltm->tm_min;
+	t_day[count] = to_string(ltm->tm_mday);
+	t_hour[count] = to_string(ltm->tm_hour); 
+	t_minute[count] = to_string(ltm->tm_min);
+}
+
+void display_time()
+{
+	cout<<t_day[count]<<" : "<<t_hour[count]<<" : "<<t_minute[count]<<endl;
 }
 
 void account::deposit()
@@ -187,6 +192,8 @@ void account::deposit()
 	cout<<"BALANCE : "<<fixed<<bal<<"\n AMOUNT DEPOSITED : "<<amt;
 	t_type[count] = "deposit";
 	amount[count] = "+" + x;
+	store_time();
+	cout<<t_day[count]<<endl;
 	count++;
 	temp++;
 }
@@ -201,6 +208,7 @@ void account::withdraw()
 	cout<<"BALANCE : "<<bal<<"\n AMOUNT WITHDRAWN : "<<amt<<endl;
 	t_type[count] = "withdraw";
 	amount[count] = "-" + x;
+	store_time();
 	count++;
 	temp++;
 }
@@ -221,7 +229,7 @@ void account::view_transactions()
 	cout<<"S.NO \t T_TYPE \t AMOUNT \t DAY : \t HOUR : \t MINUTE "<<endl;
 	while (x<count)
 	{
-		cout<<x+1<<") \t"<<t_type[x]<<"\t"<<amount[x]<<"\t"<<t_day[x] <<": \t"<< t_hour[x] <<": \t" <<t_minute[x]<<endl;
+		cout<<x+1<<") \t"<<t_type[x]<<"\t \t"<<amount[x]<<"\t \t"<<t_day[x] <<": \t"<< t_hour[x] <<": \t" <<t_minute[x]<<endl;
 		x++;
 	}
 }
@@ -259,6 +267,7 @@ class savings:public account
 			cout<<"BALANCE : "<<fixed<<bal<<"\n AMOUNT WITHDRAWN : "<<fixed<<amt<<endl;
 			t_type[count] = "withdraw";
 			amount[count] = "-" + x;
+			store_time();
 			count++;
 			}
 };
@@ -305,6 +314,8 @@ class fd:public account
 				cout<<fixed<<bal<<"Successfully withdrawn";
 			}
 			bal = 0;
+			store_time();
+			count++;
 		}
 		void deposit() {
 			if(bal == 0) {
@@ -315,6 +326,8 @@ class fd:public account
 			} else {
 				cout<<"You cannot deposit now since your earlier fd has not matured yet"<<endl;
 			}
+			store_time();
+			count++;
 		}
 };
 
@@ -350,6 +363,40 @@ class rd:public account
 				this_thread::sleep_for(chrono::seconds((1)));
 				seconds++;
 			}
+		}
+		void withdraw(int maturity) {
+			char choice;
+			float deduct;
+			if(seconds <maturity) {
+				cout<<"The fd is not mature yet, do you still want to withdraw the money? 69% of it will be deducted as punishment"<<endl;
+				cout<<"Enter y to withdraw, or anything else to exit"<<endl;
+				cin>>choice;
+				if(choice == 'y') {
+					deduct = (bal * 69)/100;
+					bal = bal - deduct;
+					cout<<fixed<<bal<<" Successfully withdrawn"<<endl;
+					bal = 0;
+				} else {
+					return;
+				}
+			} else {
+				cout<<fixed<<bal<<"Successfully withdrawn";
+			}
+			bal = 0;
+			store_time();
+			count++;
+		}
+		void deposit() {
+			if(bal == 0) {
+				cout<<"You can now deposit more money into the fd"<<endl;
+				cout<<"Please enter the amount of money to deposit"<<endl;
+				cin>>amt;
+				bal = bal+amt;
+			} else {
+				cout<<"You cannot deposit now since your earlier fd has not matured yet"<<endl;
+			}
+			store_time();
+			count++;
 		}
 };
 
@@ -502,7 +549,7 @@ int main()
 		switch(x)
 		{
 			case 1:
-				b.withdraw();
+				b.withdraw(b.maturity);
 				cout<<"AMOUNT SUCCESSFULLY WITHDRAWN"<<endl;
 				break;
 			
