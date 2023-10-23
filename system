@@ -19,7 +19,7 @@ class login_portal {
 		void create() {
 			int choice, x = 0;
 			ofstream outfile; //Creating a output fstream object
-			outfile.open("bank_records.csv");//opening the csv file to write
+			outfile.open("bank_records.csv", ios::app);//opening the csv file to write
 			cout<<"To create a savings account press 1, for current account, press 2, for opening a new fixed deposit, press 3, to open a new recurring deposit press 4 and to go back press 6"<<endl;
 			cin>>choice;
 			cout<<"Press 5 to confirm your decision";
