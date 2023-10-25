@@ -28,11 +28,11 @@ class login_portal
 	outfile.open("bank_records.csv");//opening the csv file to write
 	cout<<"To create a savings account press 1, for current account, press 2, for opening a new fixed deposit, press 3, to open a new recurring deposit press 4 and to go back press 6"<<endl;
 	cin>>choice;
-	cout<<"Press 5 to confirm your decision";
+	cout<<"Press 5 to confirm your decision"<<endl;
 	cin>>x;
 	if(x !=5)
 	{
-		cout<<"Returning to the login page";
+		cout<<"Returning to the login page"<<endl;
 		return;
 	}
 	
@@ -319,12 +319,12 @@ class fd:public account
 		}
 		void deposit() {
 			if(bal == 0) {
-				cout<<"You can now deposit more money into the fd"<<endl;
+				cout<<"You can now deposit more money into the rd"<<endl;
 				cout<<"Please enter the amount of money to deposit"<<endl;
 				cin>>amt;
 				bal = bal+amt;
 			} else {
-				cout<<"You cannot deposit now since your earlier fd has not matured yet"<<endl;
+				cout<<"You cannot deposit now since your earlier rd has not matured yet"<<endl;
 			}
 			store_time();
 			count++;
@@ -341,7 +341,7 @@ class rd:public account
 		int t;
 		rd()
 		{
-			cout<<"Please enter the maturiry period of the fd in seconds"<<endl;
+			cout<<"Please enter the maturiry period of the rd in seconds"<<endl;
 			cin>>maturity;
 			cout<<"Please enter the time period in seconds"<<endl;
 			cin>>t;
@@ -368,7 +368,7 @@ class rd:public account
 			char choice;
 			float deduct;
 			if(seconds <maturity) {
-				cout<<"The fd is not mature yet, do you still want to withdraw the money? 69% of it will be deducted as punishment"<<endl;
+				cout<<"The rd is not mature yet, do you still want to withdraw the money? 69% of it will be deducted as punishment"<<endl;
 				cout<<"Enter y to withdraw, or anything else to exit"<<endl;
 				cin>>choice;
 				if(choice == 'y') {
@@ -388,12 +388,12 @@ class rd:public account
 		}
 		void deposit() {
 			if(bal == 0) {
-				cout<<"You can now deposit more money into the fd"<<endl;
+				cout<<"You can now deposit more money into the rd"<<endl;
 				cout<<"Please enter the amount of money to deposit"<<endl;
 				cin>>amt;
 				bal = bal+amt;
 			} else {
-				cout<<"You cannot deposit now since your earlier fd has not matured yet"<<endl;
+				cout<<"You cannot deposit now since your earlier rd has not matured yet"<<endl;
 			}
 			store_time();
 			count++;
@@ -472,7 +472,7 @@ int main()
 		while(choice2 == 'y')
 	{
 		choice2 = 'n';
-		cout<<"Please enter 1 to withdraw \n\n 2 to deposit \n\n 3 to view your current balance \n\n 4 to view your transaction history \n\n 5 to exit back to the login page"<<endl;
+		cout<<"Please enter:\n 1 to withdraw \n\n 2 to deposit \n\n 3 to view your current balance \n\n 4 to view your transaction history \n\n 5 to exit back to the login page"<<endl;
 		cin>>x;
 		switch(x)
 		{
@@ -568,9 +568,8 @@ int main()
 				break;
 			
 		}
-		cout<<"Do you want to repeat the bank functions? \n Enter yes or no."<<endl;
+		cout<<"Do you want to repeat the bank functions? \n Enter y or n."<<endl;
 		cin>>choice2;
-	}
-	
+	}	
 }
 }
