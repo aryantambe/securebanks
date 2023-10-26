@@ -25,7 +25,7 @@ class login_portal
 	{
 	int choice, x = 0;
 	ofstream outfile; //Creating a output fstream object
-	outfile.open("bank_records.csv");//opening the csv file to write
+	outfile.open("bank_records.csv", ios::app);//opening the csv file to write
 	cout<<"To create a savings account press 1, for current account, press 2, for opening a new fixed deposit, press 3, to open a new recurring deposit press 4 and to go back press 6"<<endl;
 	cin>>choice;
 	cout<<"Press 5 to confirm your decision"<<endl;
@@ -179,7 +179,7 @@ void account::store_time()
 
 void display_time()
 {
-	cout<<t_day[count]<<" : "<<t_hour[count]<<" : "<<t_minute[count]<<endl;
+	cout<<"/t"<<t_day[count]<<" : "<<t_hour[count]<<" : "<<t_minute[count]<<endl;
 }
 
 void account::deposit()
@@ -319,12 +319,12 @@ class fd:public account
 		}
 		void deposit() {
 			if(bal == 0) {
-				cout<<"You can now deposit more money into the rd"<<endl;
+				cout<<"You can now deposit more money into the fd"<<endl;
 				cout<<"Please enter the amount of money to deposit"<<endl;
 				cin>>amt;
 				bal = bal+amt;
 			} else {
-				cout<<"You cannot deposit now since your earlier rd has not matured yet"<<endl;
+				cout<<"You cannot deposit now since your earlier fd has not matured yet"<<endl;
 			}
 			store_time();
 			count++;
@@ -449,8 +449,6 @@ int main()
 				break;
 				
 			case 3:
-				b.compounding = false;
-				interestcal.join();
 				b.view();
 				break;
 			
@@ -459,6 +457,8 @@ int main()
 				break;
 				
 			case 5:
+				b.compounding = false;
+				interestcal.join();
 				break;
 			
 		}
@@ -524,12 +524,12 @@ int main()
 				break;
 				
 			case 3:
-				b.compounding = false;
-				interestcal2.join();
 				b.view();
 				break;
 			
 			case 4:
+				b.compounding = false;
+				interestcal2.join();
 				break;
 			
 		}
@@ -559,12 +559,12 @@ int main()
 				break;
 				
 			case 3:
-				b.compounding = false;
-				interestcal3.join();
 				b.view();
 				break;
 			
 			case 4:
+				b.compounding = false;
+				interestcal3.join();
 				break;
 			
 		}
